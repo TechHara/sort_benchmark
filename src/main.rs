@@ -28,7 +28,6 @@ fn main() -> io::Result<()> {
     lines.sort_unstable();
     for line in lines {
         ofs.write_all(line.as_bytes())?;
-        ofs.write_all(&[b'\n'])?;
     }
     Ok(())
 }
