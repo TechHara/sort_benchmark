@@ -1,31 +1,42 @@
-#include <iostream>
+#include <cstdio>
 #include <vector>
-#include <fstream>
 #include <algorithm>
-#include <string_view>
+#include <cstring>
+#include <string>
 
-int main(int argc, const char **argv) {
-    std::string input_file = argc >= 1 ? argv[1] : "/dev/stdin";
-    std::string output_file = argc >= 2 ? argv[2] : "/dev/stdout";
-    std::ifstream ifs{input_file};
-    if (!ifs) return 1;
-    std::ofstream ofs{output_file};
-    if (!ofs) return 1;
+int comp(char** a, char** b) {
+  return std::strcmp(*a, *b);
+}
 
-    std::string content( (std::istreambuf_iterator<char>(ifs) ),
-                       (std::istreambuf_iterator<char>()    ) );
+int main(int argc, const char** argv) {
+  std::string input = "-";
+  std::string output = "-";
 
-    std::vector<std::string_view> lines;
-    auto first = content.begin();
-    const auto last = content.end();
-    while (first < last) {
-        auto it = std::find(first, last, '\n');
-        lines.emplace_back(&*first, ++it - first);
-        first = it;
-    }
+  if (argc >= 2) input = argv[1];
+  if (argc >= 3) output = argv[2];
+  if (input == "-") input = "/dev/stdin";
+  if (output == "-") output = "/dev/stdout";
 
-    std::sort(lines.begin(), lines.end());
-    for (auto &line : lines) {
-        ofs.write(line.data(), line.size());
-    }
+  FILE* ifs = fopen(input.data(), "r");
+  FILE* ofs = fopen(output.data(), "w");
+
+  std::vector<char*> lines;
+  while (true) {
+    char* line = nullptr;
+    size_t capacity;
+    auto n = getline(&line, &capacity, ifs);
+    if (n <= 0) break;
+    lines.push_back(line);
+  }
+
+  qsort(lines.data(), lines.size(), sizeof(*lines.data()), reinterpret_cast<int (*)(const void *, const void *)>(comp));
+
+  for (auto &line : lines) {
+    fprintf(ofs, "%s", line);
+    free(line);
+  }
+  fclose(ifs);
+  fclose(ofs);
+
+  return 0;
 }
