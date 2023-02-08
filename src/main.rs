@@ -4,10 +4,10 @@ use std::fs::File;
 
 fn main() -> io::Result<()> {
     let params: Vec<_> = args().collect();
-    let input_file = if params.len() < 2 || params[1] == "-" {
+    let input_file = if params.len() < 2 {
         "/dev/stdin".to_owned()
     } else { params[1].clone() };
-    let output_file = if params.len() < 3 || params[2] == "-" {
+    let output_file = if params.len() < 3 {
         "/dev/stdout".to_owned()
     } else { params[2].clone() };
     let ifs = BufReader::new(File::open(input_file)?);

@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Java {
+public class Main {
     public static void main(String[] args) throws IOException {
         String input_file = args.length >= 1 ? args[0] : "/dev/stdin";
         String output_file = args.length >= 2 ? args[1] : "/dev/stdout";

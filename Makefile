@@ -1,8 +1,10 @@
 CC = clang
 CXX = clang++
-CFLAGS = -O3 -g
-CXXFLAGS = -O3 -g -std=c++17
+CFLAGS = -O3
+CXXFLAGS = -O3 -std=c++17
 all:
-	$(CC) $(CFLAGS) src/bin/main.c -o target/release/c
-	$(CXX) $(CXXFLAGS) src/bin/main.cc -o target/release/cc
-	ln -sf `realpath src/bin/main.py` target/release/py1
+	$(CC) $(CFLAGS) src/main.c -o c
+	$(CXX) $(CXXFLAGS) src/main.cc -o cc
+	rustc src/main.rs -o rust -C opt-level=3
+	javac -d . src/Main.java
+	ln -sf `realpath src/main.py` py1
