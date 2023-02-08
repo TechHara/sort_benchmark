@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 
 class LineSorter
 {
@@ -7,22 +8,9 @@ class LineSorter
     {
         var input_file = args.Length >= 1 ? args[0] : "/dev/stdin";
         var output_file = args.Length >= 2 ? args[1] : "/dev/stdout";
-        List<string> lines = new List<string>();
-        using (StreamReader sr = File.OpenText(input_file))
-        {
-            string s;
-            while ((s = sr.ReadLine()) != null)
-            {
-                lines.Add(s);
-            }
-        }
-        lines.Sort();
-        using (StreamWriter sw = File.CreateText(output_file))
-            {
-                foreach(var line in lines) {
-                    sw.WriteLine(line);
-                }
-            }
+        string[] lines = File.ReadAllLines(input_file);
+        Array.Sort(lines);
+        File.WriteAllLines(output_file, lines);
     }
 }
 
