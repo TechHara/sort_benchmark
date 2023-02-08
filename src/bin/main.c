@@ -7,14 +7,12 @@ int compare_lines(const void *a, const void *b) {
 }
 
 int main(int argc, const char** argv) {
-  char const* input = "/dev/stdin";
-  char const* output = "/dev/stdout";
-
-  if (argc >= 2) input = argv[1];
-  if (argc >= 3) output = argv[2];
-
+  char const* input = argc >= 2 ? argv[1] : "/dev/stdin";
+  char const* output = argc >= 3 ? argv[2] : "/dev/stdout";
   FILE* ifs = fopen(input, "r");
+  if (!ifs) return 1;
   FILE* ofs = fopen(output, "w");
+  if (!ofs) return 1;
 
   size_t capa = 1;
   char **lines = malloc(capa * sizeof(char*));
