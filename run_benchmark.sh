@@ -19,7 +19,7 @@ done
 make -j
 
 # run benchmark
-for exec in ./c ./cc ./rust "java -Dfile.encoding=UTF-8 Main" "python3 src/main.py" ./cs/cs "node src/main.js"; do 
+for exec in ./c ./cc ./rust "java -Dfile.encoding=UTF-8 Main" "python3 src/main.py" ./cs/csharp ./fs/fsharp "node src/main.js"; do 
     TAG=$(basename `echo ${exec} | awk '{print $1}'`)
     LOGi=${TAG}_instr
     LOGt=${TAG}_time
